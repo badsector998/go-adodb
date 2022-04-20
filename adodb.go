@@ -185,6 +185,11 @@ func (c *AdodbConn) prepare(ctx context.Context, query string) (driver.Stmt, err
 		return nil, err
 	}
 	rv.Clear()
+	rv, err = oleutil.PutProperty(s, "CursorLocation", 3)
+	if err != nil {
+		return nil, err
+	}
+	rv.Clear()
 	rv, err = oleutil.PutProperty(s, "Prepared", true)
 	if err != nil {
 		return nil, err
