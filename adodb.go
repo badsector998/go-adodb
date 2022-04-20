@@ -148,7 +148,7 @@ func (d *AdodbDriver) Open(dsn string) (driver.Conn, error) {
 		return nil, err
 	}
 	rc.Clear()
-	return &AdodbConn{db: db}, nil
+	return &AdodbConn{db: dbrc}, nil
 }
 
 func (c *AdodbConn) Close() error {
