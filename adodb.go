@@ -129,11 +129,17 @@ func (d *AdodbDriver) Open(dsn string) (driver.Conn, error) {
 	if err != nil {
 		return nil, err
 	}
-	dbrv, err := oleutil.PutProperty(db, "CursorLocation", 3)
+	_, err = oleutil.PutProperty(db, "CursorLocation", 3)
 	if err != nil {
 		return nil, err
 	}
-	rc, err := oleutil.CallMethod(dbrv.ToIDispatch(), "Open", dsn)
+	val, err := oleutil.GetProperty(db, "Parameters")
+	if err != nil {
+		return nil, err
+	}
+	dbrc := val.ToIDispatch()
+	val.Clear()
+	rc, err := oleutil.CallMethod(dbrc, "Open", dsn)
 	if err != nil {
 		return nil, err
 	}
